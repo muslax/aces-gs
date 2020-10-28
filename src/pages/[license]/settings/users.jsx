@@ -8,15 +8,15 @@ import NotFound from 'components/404'
 export async function getStaticPaths() {
   // const { db } = await connect()
   try {
-    // const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
-    // // console.log(rs)
-    // const paths = rs.map((license) => ({
-    //   params: { license: license.slug },
-    // }))
+    const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
+    // console.log(rs)
+    const paths = rs.map((license) => ({
+      params: { license: license.slug },
+    }))
 
-    // return { paths, fallback: true }
-    const paths = await getLicensePaths()
     return { paths, fallback: true }
+    // const paths = await getLicensePaths()
+    // return { paths, fallback: true }
   } catch (error) {
     throw error
   }
