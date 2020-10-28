@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getLicensePaths, getLicenseInfo } from 'lib/utils'
 import useUser from 'lib/useUser'
 import Layout from "components/Layout";
 import { connect } from 'lib/database'
@@ -7,12 +8,14 @@ import NotFound from 'components/404'
 export async function getStaticPaths() {
   const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
+    // const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
     // console.log(rs)
-    const paths = rs.map((license) => ({
-      params: { license: license.slug },
-    }))
+    // const paths = rs.map((license) => ({
+    //   params: { license: license.slug },
+    // }))
 
+    // return { paths, fallback: true }
+    const paths = await getLicensePaths()
     return { paths, fallback: true }
   } catch (error) {
     throw error
@@ -21,15 +24,15 @@ export async function getStaticPaths() {
 
 // This also gets called at build time
 export async function getStaticProps({ params }) {
-  const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let info = JSON.stringify(rs)
-    info = JSON.parse(info)
+    const info = await getLicenseInfo(params.license)
+    // const rs = await db.collection('licenses').findOne({ slug: params.license })
+    // let info = JSON.stringify(rs)
+    // info = JSON.parse(info)
     // console.log(info)
 
     return {
-      props: { licenseInfo: info },
+      props: { info },
       revalidate: 3, // In seconds
     }
   } catch (error) {
@@ -38,13 +41,13 @@ export async function getStaticProps({ params }) {
 }
 
 //
-export default function Settings({ licenseInfo }) {
+export default function Settings({ info }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!licenseInfo || !user || licenseInfo.slug != user?.license) return NotFound
+  if(!info || !user || info.licenseSlug != user?.license) return NotFound
 
   return (
-    <Layout bg="white" user={user} nav="settings">
+    <Layout bg="white" info={info} nav="settings">
       <div className="max-w-5xl mx-auto antialiased pt-10 px-4 sm:px-6">
         <div className="flex flex-row">
           <div className="w-full sm:w-32 md:w-48">
@@ -52,17 +55,17 @@ export default function Settings({ licenseInfo }) {
               License Settings
             </p>
             <div className="flex flex-col text-gray-600 leading-base">
-              <Link href="/[license]/settings/license" as={`/${user.license}/settings/license`}>
+              <Link href="/[license]/settings/license" as={`/${info.licenseSlug}/settings/license`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 text-gray-900 font-semibold hover:text-indigo-400">
                   License
                 </a>
               </Link>
-              <Link href="/[license]/settings/users" as={`/${user.license}/settings/users`}>
+              <Link href="/[license]/settings/users" as={`/${info.licenseSlug}/settings/users`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 hover:text-indigo-400">
                   Users
                 </a>
               </Link>
-              <Link href="/[license]/settings/billing" as={`/${user.license}/settings/billing`}>
+              <Link href="/[license]/settings/billing" as={`/${info.licenseSlug}/settings/billing`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 hover:text-indigo-400">
                   Billing
                 </a>

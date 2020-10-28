@@ -22,7 +22,8 @@ export default class Layout extends React.Component {
     window.removeEventListener('scroll', this.handleScroll, false);
   }
 
-
+  // This layout will be statically generated,
+  // can't use user which is only available at runtime
 
   render() {
     const mainClass = this.props.bg ? this.props.bg + ' min-h-screen' : 'min-h-screen'
@@ -31,15 +32,15 @@ export default class Layout extends React.Component {
       <>
         <Head>
           {/* <title>{this.props.license.licenseName}</title> */}
-          <title>{this.props.user.licenseName}</title>
+          <title>{this.props.info.licenseName}</title>
         </Head>
 
         <main id="aces-main" className={mainClass}>
           <div className="pb-24">
             {/* <NavUser user={this.props.user} licenseName={this.props.user.licenseName} /> */}
-            <NavUser user={this.props.user} />
+            <NavUser info={this.props.info} />
 
-            <NavLicense slug={this.props.user.license} selected={this.props.nav} />
+            <NavLicense slug={this.props.info.licenseSlug} selected={this.props.nav} />
 
             <div id="aces-content">
               {this.props.children}

@@ -9,14 +9,12 @@ export async function getStaticPaths() {
   console.log("getStaticPaths")
   const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').find(
-      {}, {projection: {_id: 0, slug: 1}}
-    ).toArray()
-    // console.log("rs", rs)
+    const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
+
     const paths = rs.map((license) => ({
       params: { license: license.slug },
     }))
-    // console.log("paths", paths)
+
     return { paths, fallback: true }
   } catch (error) {
     throw error
@@ -30,14 +28,12 @@ export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let info = JSON.stringify(rs)
-    info = JSON.parse(info)
-    // console.log(info)
+    const json = JSON.parse( JSON.stringify(rs) )
+    const info = {
+      licenseSlug: json.slug,
+      licenseName: json.licenseName,
+    }
 
-    // const rs2 = await db.collection('projects').find(
-    //   {license: params.license},
-    //   {limit: 3},
-    // ).sort({_id: -1}).toArray()
     const rs2 = await db.collection('projects').aggregate([
       { $match: {license: params.license}},
       { $sort: { _id: -1 }},
@@ -51,8 +47,8 @@ export async function getStaticProps({ params }) {
       { $unwind: '$client' },
       // { $project: { modules: -1 }}
     ]).toArray()
-    // console.log("RS2", rs2)
     const projects = JSON.parse( JSON.stringify(rs2) )
+    console.log("PROJECT", projects)
     return {
       props: { info, projects },
       revalidate: 3,
@@ -67,11 +63,11 @@ export default function License({ info, projects }) {
 
   // This includes setting the noindex header because static files always return
   // a status 200 but the rendered not found page page should obviously not be indexed
-  if(!info || !user || info?.slug != user?.license) return NotFound
+  if(!info || !user || info?.licenseSlug != user?.license) return NotFound
 
   return (
     // <Layout license={info} nav="license">
-    <Layout user={user} nav="license">
+    <Layout info={info} nav="license">
     {/* HERO */}
       <div className="bg-white pb-16 border-b border-gray-300">
         <div className="max-w-5xl mx-auto antialiased py-3 px-4 sm:px-6">

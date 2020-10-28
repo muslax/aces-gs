@@ -3,9 +3,12 @@ import { useRouter } from 'next/router'
 import fetchJson from 'lib/fetchJson'
 import useUser from 'lib/useUser'
 
-export default function NavUser({ user }) {
+// user is only available in session
+// it is null when statically built
+//
+export default function NavUser({ info }) {
   const router = useRouter()
-  const { mutateUser} = useUser({ redirecTo: `${user?.license}` })
+  const { mutateUser} = useUser({ redirecTo: `/${info.licenseSlug}` })
 
   return (
     <div className="bg-white">
@@ -14,8 +17,8 @@ export default function NavUser({ user }) {
           <div className="flex flex-grow items-center">
             <div id="ac-logo" className="h-8 w-16 mr-4 bg-gray-200"></div>
             <div className="flex-grow">
-              <Link href={`/${user.license}`}>
-                <a className="text-gray-800 font-semibold">{user.licenseName}</a>
+              <Link href={`/${info.licenseSlug}`}>
+                <a className="text-gray-800 font-semibold">{info.licenseName}</a>
               </Link>
             </div>
           </div>

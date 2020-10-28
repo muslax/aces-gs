@@ -1,4 +1,5 @@
 import useUser from 'lib/useUser'
+import { getLicenseInfo } from 'lib/utils'
 import Layout from "components/Layout";
 import { connect } from 'lib/database'
 import ProjectGrid from 'components/ProjectGrid'
@@ -23,10 +24,12 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
+    const info = await getLicenseInfo(params.license)
     const rs = await db.collection('projects').find({license: params.license}).sort({ _id: -1 }).toArray()
     const projects = JSON.parse( JSON.stringify(rs) )
     return {
-      props: { slug: params.license, projects },
+      // props: { slug: params.license, projects },
+      props: { info, projects },
       revalidate: 3, // In seconds
     }
   } catch (error) {
@@ -35,13 +38,13 @@ export async function getStaticProps({ params }) {
 }
 
 //
-export default function Projects({ slug, projects }) {
+export default function Projects({ info, projects }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!user || user.license != slug) return NotFound
+  if(!user || user.license != info.licenseSlug) return NotFound
 
   return (
-    <Layout user={user} nav="projects">
+    <Layout info={info} nav="projects">
       <div className="relative sbg-indigos-100 sbg-opacity-25">
         {/* <div className="GRADIENT w-full absolute py-24 z-0 bg-gradient-to-b from-indigo-100 opacity-25">
           <div className="h-64"></div>
