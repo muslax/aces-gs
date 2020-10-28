@@ -62,78 +62,80 @@ export async function getStaticProps({ params }) {
     //   projectId: json.id,
     // }
     return {
-      props: { info, modules: [
-        {
-          // _id: ObjectID("5f6da077b244f3a86bc85ba1"),
-          slug: 'gpq-1.0',
-          type: 'gpq',
-          version: '1.0',
-          method: 'selftest',
-          name: 'GPQ Untuk ASN',
-          title: null,
-          description: null,
-          items: 30,
-          maxTime: 5400000,
-        },
-        {
-          // _id: ObjectID("5f6da0d6b244f3a86bc85ba2"),
-          slug: 'aime-1.0',
-          type: 'aime',
-          version: '1.0',
-          method: 'selftest',
-          name: 'AIME for Professional',
-          title: null,
-          description: null,
-          items: 48,
-          maxTime: 8640000,
-        },
-        {
-          // _id: ObjectID("5f6da0f5b244f3a86bc85ba3"),
-          slug: 'interview-1.0',
-          type: 'interview',
-          version: '1.0',
-          method: 'simulation',
-          name: 'Wawancara',
-          title: null,
-          description: null,
-          items: 16,
-          maxTime: null,
-        },
-        {
-          // _id: ObjectID("5f8b048c5f48fe0608868488"),
-          slug: 'sjt-asn-1.0',
-          type: 'sjt-asn',
-          version: '1.0',
-          method: 'selftest',
-          name: 'SJT untuk ASN',
-          title: 'SJT untuk ASN',
-          description: 'Lorem ipsum dolor ASN',
-          items: 27,
-          maxTime: 4050000,
-        },
-        {
-          // _id: ObjectID("5f90b0da2738ea069b6d7cf3"),
-          slug: 'mate-1.0',
-          type: 'mate',
-          version: '1.0',
-          method: 'selftest',
-          name: 'MATE for Professional',
-          title: null,
-          description: null,
-          items: 45,
-          maxTime: 8100000,
-        },
-      ]}
+      props: { info }
     }
   } catch (error) {
     throw error
   }
 }
 
-export default function SetModules({ info, modules }) {
+export default function SetModules({ info }) {
   const { user } = useUser({ redirecTo: "/login" })
 
   // if(!license || !user || license.slug != user?.license) return NotFound
+
+  const modules= [
+    {
+      // _id: ObjectID("5f6da077b244f3a86bc85ba1"),
+      slug: 'gpq-1.0',
+      type: 'gpq',
+      version: '1.0',
+      method: 'selftest',
+      name: 'GPQ Untuk ASN',
+      title: null,
+      description: null,
+      items: 30,
+      maxTime: 5400000,
+    },
+    {
+      // _id: ObjectID("5f6da0d6b244f3a86bc85ba2"),
+      slug: 'aime-1.0',
+      type: 'aime',
+      version: '1.0',
+      method: 'selftest',
+      name: 'AIME for Professional',
+      title: null,
+      description: null,
+      items: 48,
+      maxTime: 8640000,
+    },
+    {
+      // _id: ObjectID("5f6da0f5b244f3a86bc85ba3"),
+      slug: 'interview-1.0',
+      type: 'interview',
+      version: '1.0',
+      method: 'simulation',
+      name: 'Wawancara',
+      title: null,
+      description: null,
+      items: 16,
+      maxTime: null,
+    },
+    {
+      // _id: ObjectID("5f8b048c5f48fe0608868488"),
+      slug: 'sjt-asn-1.0',
+      type: 'sjt-asn',
+      version: '1.0',
+      method: 'selftest',
+      name: 'SJT untuk ASN',
+      title: 'SJT untuk ASN',
+      description: 'Lorem ipsum dolor ASN',
+      items: 27,
+      maxTime: 4050000,
+    },
+    {
+      // _id: ObjectID("5f90b0da2738ea069b6d7cf3"),
+      slug: 'mate-1.0',
+      type: 'mate',
+      version: '1.0',
+      method: 'selftest',
+      name: 'MATE for Professional',
+      title: null,
+      description: null,
+      items: 45,
+      maxTime: 8100000,
+    },
+  ]
 
   return (
     <FormLayout info={info}>
