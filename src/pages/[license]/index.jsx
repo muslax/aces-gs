@@ -12,11 +12,11 @@ export async function getStaticPaths() {
     const rs = await db.collection('licenses').find(
       {}, {projection: {_id: 0, slug: 1}}
     ).toArray()
-    console.log("rs", rs)
+    // console.log("rs", rs)
     const paths = rs.map((license) => ({
       params: { license: license.slug },
     }))
-    console.log("paths", paths)
+    // console.log("paths", paths)
     return { paths, fallback: true }
   } catch (error) {
     throw error
@@ -32,7 +32,7 @@ export async function getStaticProps({ params }) {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
     let info = JSON.stringify(rs)
     info = JSON.parse(info)
-    console.log(info)
+    // console.log(info)
 
     // const rs2 = await db.collection('projects').find(
     //   {license: params.license},
@@ -51,7 +51,7 @@ export async function getStaticProps({ params }) {
       { $unwind: '$client' },
       // { $project: { modules: -1 }}
     ]).toArray()
-    console.log("RS2", rs2)
+    // console.log("RS2", rs2)
     const projects = JSON.parse( JSON.stringify(rs2) )
     return {
       props: { info, projects },

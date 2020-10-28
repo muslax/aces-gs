@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   const { db } = await connect()
   try {
     const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
-    console.log(rs)
+    // console.log(rs)
     const paths = rs.map((license) => ({
       params: { license: license.slug },
     }))
@@ -26,12 +26,12 @@ export async function getStaticProps({ params }) {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
     let info = JSON.stringify(rs)
     info = JSON.parse(info)
-    console.log(info)
+    // console.log(info)
 
     const rs2 = await db.collection('users').find({license: info.slug}).sort({_id: -1}).toArray()
     let users = JSON.stringify(rs2)
     users = JSON.parse(users)
-    console.log("USERS", users)
+    // console.log("USERS", users)
     return {
       props: { licenseInfo: info, users },
       revalidate: 3, // In seconds

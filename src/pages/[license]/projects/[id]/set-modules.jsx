@@ -137,8 +137,8 @@ export default function SetModules({ info, modules }) {
 
   return (
     <div info={info}>
-      <Form user={user} info={info} modules={modules} />
-      {/* <pre className="pre">{JSON.stringify(info, null, 2)}</pre> */}
+      {/* <Form user={user} info={info} modules={modules} /> */}
+      <pre className="pre">{JSON.stringify(info, null, 2)}</pre>
       {/* <pre className="pre">{JSON.stringify(modules, null, 2)}</pre> */}
     </div>
   )
