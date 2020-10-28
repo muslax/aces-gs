@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getLicensePaths } from 'lib/utils'
 import useUser from 'lib/useUser'
 import Layout from "components/Layout";
 import { connect } from 'lib/database'
@@ -9,12 +10,14 @@ export async function getStaticPaths() {
   console.log("getStaticPaths")
   const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
+    // const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
 
-    const paths = rs.map((license) => ({
-      params: { license: license.slug },
-    }))
+    // const paths = rs.map((license) => ({
+    //   params: { license: license.slug },
+    // }))
 
+    // return { paths, fallback: true }
+    const paths = await getLicensePaths()
     return { paths, fallback: true }
   } catch (error) {
     throw error
