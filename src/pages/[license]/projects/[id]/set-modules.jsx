@@ -40,7 +40,7 @@ export async function getStaticProps({ params }) {
         _id: 1,
         title: 1,
         license: 1,
-        "licenseInfo.licenseName": 1,
+        "licenseinfo?.licenseName": 1,
       }}
     ]).toArray()
     const project = JSON.parse( JSON.stringify(rs[0]) )
@@ -48,7 +48,7 @@ export async function getStaticProps({ params }) {
       projectId: project._id,
       projectTitle: project.title,
       licenseSlug: project.license,
-      licenseName: project.licenseInfo.licenseName,
+      licenseName: project.licenseinfo?.licenseName,
     }
 
     console.log("INFO", info)
@@ -137,10 +137,10 @@ export default function SetModules({ info }) {
           <div className="flex flex-row px-6 py-6 items-end border-b">
             <div className="flex-grow">
               <h1 className="text-gray-700 text-2xl font-semibold">Setup Project Modules</h1>
-              <p className="text-gray-600 text-sm">Project: <span className="text-blue-600 font-bold">{info.projectTitle}</span></p>
+              <p className="text-gray-600 text-sm">Project: <span className="text-blue-600 font-bold">{info?.projectTitle}</span></p>
             </div>
             <div className="flex-0">
-              <Link href="/[license]/projects/[id]/modules" as={`/${info.licenseSlug}/projects/${info.projectId}/modules`}>
+              <Link href="/[license]/projects/[id]/modules" as={`/${info?.licenseSlug}/projects/${info?.projectId}/modules`}>
                 <a className="rounded-md border text-sm text-gray-600 hover:border-gray-500 hover:text-gray-700 px-3 py-1">
                   Cancel
                 </a>
@@ -175,7 +175,7 @@ export default function SetModules({ info }) {
           <form>
             <div className="flex flex-row items-center border-t border-gray-400 px-6 py-8">
               <div className="flex-grow">
-                <Link href="/[license]/projects/[id]/modules" as={`/${info.licenseSlug}/projects/${info.projectId}/modules`}>
+                <Link href="/[license]/projects/[id]/modules" as={`/${info?.licenseSlug}/projects/${info?.projectId}/modules`}>
                   <a className="inline-block rounded-md border text-gray-500 font-semibold hover:border-gray-500 hover:text-gray-700 px-4 py-2">
                     Cancel
                   </a>
@@ -201,10 +201,10 @@ const Form = ({ user, info, modules }) => {
         <div className="flex flex-row px-6 py-6 items-end border-b">
           <div className="flex-grow">
             <h1 className="text-gray-700 text-2xl font-semibold">Setup Project Modules</h1>
-            <p className="text-gray-600 text-sm">Project: <span className="text-blue-600 font-bold">{info.projectTitle}</span></p>
+            <p className="text-gray-600 text-sm">Project: <span className="text-blue-600 font-bold">{info?.projectTitle}</span></p>
           </div>
           <div className="flex-0">
-            <Link href="/[license]/projects/[id]/modules" as={`/${info.licenseSlug}/projects/${info.projectId}/modules`}>
+            <Link href="/[license]/projects/[id]/modules" as={`/${info?.licenseSlug}/projects/${info?.projectId}/modules`}>
               <a className="rounded-md border text-sm text-gray-600 hover:border-gray-500 hover:text-gray-700 px-3 py-1">
                 Cancel
               </a>
@@ -239,7 +239,7 @@ const Form = ({ user, info, modules }) => {
         <form>
           <div className="flex flex-row items-center border-t border-gray-400 px-6 py-8">
             <div className="flex-grow">
-              <Link href="/[license]/projects/[id]/modules" as={`/${info.licenseSlug}/projects/${info.projectId}/modules`}>
+              <Link href="/[license]/projects/[id]/modules" as={`/${info?.licenseSlug}/projects/${info?.projectId}/modules`}>
                 <a className="inline-block rounded-md border text-gray-500 font-semibold hover:border-gray-500 hover:text-gray-700 px-4 py-2">
                   Cancel
                 </a>
