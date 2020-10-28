@@ -27,7 +27,7 @@ export default class FormLayout extends React.Component {
                 <span className="rounded-sm bg-blue-800 bg-opacity-25 text-white border-l border-b border-gray-100 px-2 py-1">ACES Form</span>
               </div>
               <h1 className="text-xl text-center text-blue-900 font-semibold opacity-50 mb-8">
-                {this.props.info.licenseName}
+                {this.props.info?.licenseName}
               </h1>
             </div>
             <div className="max-w-xl mx-auto">

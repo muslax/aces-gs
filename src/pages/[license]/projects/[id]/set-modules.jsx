@@ -136,11 +136,11 @@ export default function SetModules({ info, modules }) {
   // if(!license || !user || license.slug != user?.license) return NotFound
 
   return (
-    <div info={info}>
-      {/* <Form user={user} info={info} modules={modules} /> */}
+    <FormLayout info={info}>
       <pre className="pre">{JSON.stringify(info, null, 2)}</pre>
+      <Form user={user} info={info} modules={modules} />
       {/* <pre className="pre">{JSON.stringify(modules, null, 2)}</pre> */}
-    </div>
+    </FormLayout>
   )
 }
 
